@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 20% alpha of primary_container (#10b981) -> #3310B981 -->
+    <solid android:color="#3310B981" />
+    <corners android:radius="12dp" />
+    <stroke android:width="2dp" android:color="@color/primary_container" />
+</shape>
