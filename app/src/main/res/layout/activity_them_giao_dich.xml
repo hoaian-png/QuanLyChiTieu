@@ -173,6 +173,7 @@
                     android:textSize="16sp" />
 
                 <GridLayout
+                    android:id="@+id/gridCategories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:columnCount="4"
@@ -335,9 +336,12 @@
                     android:textSize="16sp" />
 
                 <LinearLayout
+                    android:id="@+id/dateRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_category_inactive"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="16dp">
@@ -349,6 +353,7 @@
                         app:tint="@color/outline" />
 
                     <TextView
+                        android:id="@+id/tvSelectedDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -395,6 +400,7 @@
                         app:tint="@color/outline" />
 
                     <EditText
+                        android:id="@+id/etNote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"

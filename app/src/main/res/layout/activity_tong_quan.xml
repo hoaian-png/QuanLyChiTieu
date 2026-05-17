@@ -107,6 +107,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tvTongThu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="15.000.000₫"
@@ -133,6 +134,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tvTongChi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="8.500.000₫"
@@ -159,6 +161,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tvConLai"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="6.500.000₫"
@@ -211,6 +214,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tvDaChi"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -219,6 +223,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tvHanMuc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Giới hạn: 10.000.000₫"
@@ -227,6 +232,7 @@
                 </LinearLayout>
 
                 <ProgressBar
+                    android:id="@+id/progressBudget"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
@@ -236,6 +242,7 @@
                     android:progressDrawable="@drawable/bg_progress_bar" />
 
                 <TextView
+                    android:id="@+id/tvConLaiBudget"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
@@ -259,10 +266,13 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/chipTatCa"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/bg_chip_active"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="8dp"
                         android:text="Tất cả"
@@ -271,10 +281,13 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/chipThuNhap"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/bg_chip_inactive"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="8dp"
                         android:text="Thu nhập"
@@ -283,9 +296,12 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/chipChiTieu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_chip_inactive"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="8dp"
                         android:text="Chi tiêu"
@@ -303,6 +319,7 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/etSearch"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="8dp"
@@ -318,6 +335,7 @@
 
                 <!-- Month Spinner -->
                 <Spinner
+                    android:id="@+id/spinnerThang"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginEnd="8dp"
@@ -343,6 +361,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/llTransactions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -534,9 +553,12 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
+            android:id="@+id/navHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -556,9 +578,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navDanhMuc"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -578,9 +603,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navNganSach"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
 

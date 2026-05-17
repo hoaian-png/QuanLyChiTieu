@@ -341,9 +341,12 @@
 
         <!-- Inactive: Trang chủ -->
         <LinearLayout
+            android:id="@+id/navHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -364,9 +367,12 @@
 
         <!-- Active: Danh mục -->
         <LinearLayout
+            android:id="@+id/navDanhMuc"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -394,9 +400,12 @@
 
         <!-- Inactive: Ngân sách -->
         <LinearLayout
+            android:id="@+id/navNganSach"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
 

@@ -138,6 +138,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvDaChiBudget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -168,6 +169,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvConLaiBudgetDetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
