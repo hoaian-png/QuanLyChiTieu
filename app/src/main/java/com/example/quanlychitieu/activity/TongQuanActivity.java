@@ -2,7 +2,6 @@ package com.example.quanlychitieu.activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -256,7 +253,9 @@ public class TongQuanActivity extends AppCompatActivity {
 
         tvDaChi.setText("Đã chi: " + FormatUtil.formatTien(daChi));
         tvHanMuc.setText("Giới hạn: " + FormatUtil.formatTien(hanMuc));
-        tvConLaiBudget.setText("Còn lại: " + FormatUtil.formatTien(Math.max(0, conLai)));
+        tvConLaiBudget.setText(conLai >= 0
+                ? "Còn lại: " + FormatUtil.formatTien(conLai)
+                : "Vượt: " + FormatUtil.formatTien(Math.abs(conLai)));
 
         if (hanMuc > 0) {
             int progress = (int) Math.min(100, (daChi / hanMuc) * 100);

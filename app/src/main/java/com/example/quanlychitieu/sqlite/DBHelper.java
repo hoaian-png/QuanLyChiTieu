@@ -9,54 +9,51 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "quan_ly_chi_tieu.db";
     private static final int DATABASE_VERSION = 2;
 
-    // Table: danh_muc
     public static final String TABLE_DANH_MUC = "danh_muc";
     public static final String COL_DM_ID = "id";
     public static final String COL_DM_TEN = "ten";
-    public static final String COL_DM_ICON = "icon";     // resource name string
-    public static final String COL_DM_LOAI = "loai";     // "chi" or "thu"
+    public static final String COL_DM_ICON = "icon";
+    public static final String COL_DM_LOAI = "loai";
 
-    // Table: giao_dich
     public static final String TABLE_GIAO_DICH = "giao_dich";
     public static final String COL_GD_ID = "id";
     public static final String COL_GD_SO_TIEN = "so_tien";
-    public static final String COL_GD_LOAI = "loai";         // "chi" or "thu"
+    public static final String COL_GD_LOAI = "loai";
     public static final String COL_GD_DANH_MUC_ID = "danh_muc_id";
-    public static final String COL_GD_NGAY = "ngay";          // milliseconds
+    public static final String COL_GD_NGAY = "ngay";
     public static final String COL_GD_GHI_CHU = "ghi_chu";
 
-    // Table: ngan_sach
     public static final String TABLE_NGAN_SACH = "ngan_sach";
     public static final String COL_NS_ID = "id";
-    public static final String COL_NS_THANG = "thang";        // "MM/yyyy"
+    public static final String COL_NS_THANG = "thang";
     public static final String COL_NS_HAN_MUC = "han_muc";
 
     private static final String CREATE_TABLE_DANH_MUC =
             "CREATE TABLE " + TABLE_DANH_MUC + " (" +
-            COL_DM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COL_DM_TEN + " TEXT NOT NULL, " +
-            COL_DM_ICON + " TEXT, " +
-            COL_DM_LOAI + " TEXT NOT NULL DEFAULT 'chi'" +
-            ");";
+                    COL_DM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COL_DM_TEN + " TEXT NOT NULL, " +
+                    COL_DM_ICON + " TEXT, " +
+                    COL_DM_LOAI + " TEXT NOT NULL DEFAULT 'chi'" +
+                    ");";
 
     private static final String CREATE_TABLE_GIAO_DICH =
             "CREATE TABLE " + TABLE_GIAO_DICH + " (" +
-            COL_GD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COL_GD_SO_TIEN + " REAL NOT NULL, " +
-            COL_GD_LOAI + " TEXT NOT NULL, " +
-            COL_GD_DANH_MUC_ID + " INTEGER, " +
-            COL_GD_NGAY + " INTEGER NOT NULL, " +
-            COL_GD_GHI_CHU + " TEXT, " +
-            "FOREIGN KEY(" + COL_GD_DANH_MUC_ID + ") REFERENCES " +
-            TABLE_DANH_MUC + "(" + COL_DM_ID + ") ON DELETE SET NULL" +
-            ");";
+                    COL_GD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COL_GD_SO_TIEN + " REAL NOT NULL, " +
+                    COL_GD_LOAI + " TEXT NOT NULL, " +
+                    COL_GD_DANH_MUC_ID + " INTEGER, " +
+                    COL_GD_NGAY + " INTEGER NOT NULL, " +
+                    COL_GD_GHI_CHU + " TEXT, " +
+                    "FOREIGN KEY(" + COL_GD_DANH_MUC_ID + ") REFERENCES " +
+                    TABLE_DANH_MUC + "(" + COL_DM_ID + ") ON DELETE SET NULL" +
+                    ");";
 
     private static final String CREATE_TABLE_NGAN_SACH =
             "CREATE TABLE " + TABLE_NGAN_SACH + " (" +
-            COL_NS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COL_NS_THANG + " TEXT NOT NULL UNIQUE, " +
-            COL_NS_HAN_MUC + " REAL NOT NULL" +
-            ");";
+                    COL_NS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COL_NS_THANG + " TEXT NOT NULL UNIQUE, " +
+                    COL_NS_HAN_MUC + " REAL NOT NULL" +
+                    ");";
 
     private static DBHelper instance;
 
@@ -81,10 +78,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GIAO_DICH);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NGAN_SACH);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DANH_MUC);
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + TABLE_DANH_MUC + " ADD COLUMN " +
+                    COL_DM_LOAI + " TEXT NOT NULL DEFAULT 'chi'");
+            db.execSQL("UPDATE " + TABLE_DANH_MUC + " SET " + COL_DM_LOAI + " = 'thu' " +
+                    "WHERE " + COL_DM_TEN + " IN ('Lương', 'LÆ°Æ¡ng')");
+        }
     }
 
     @Override
@@ -111,14 +110,12 @@ public class DBHelper extends SQLiteOpenHelper {
                     cat[0] + "', '" + cat[1] + "')");
         }
 
-        // Default budget for current month
         java.util.Calendar cal = java.util.Calendar.getInstance();
         String thangHienTai = String.format("%02d/%04d", cal.get(java.util.Calendar.MONTH) + 1,
                 cal.get(java.util.Calendar.YEAR));
         db.execSQL("INSERT INTO " + TABLE_NGAN_SACH + " (" + COL_NS_THANG + ", " + COL_NS_HAN_MUC + ") VALUES ('" +
                 thangHienTai + "', 10000000)");
 
-        // Sample transactions
         long now = System.currentTimeMillis();
         long oneDayMs = 86400000L;
         db.execSQL("INSERT INTO " + TABLE_GIAO_DICH + " (so_tien, loai, danh_muc_id, ngay, ghi_chu) VALUES (50000, 'chi', 1, " + now + ", 'Cơm trưa văn phòng')");
