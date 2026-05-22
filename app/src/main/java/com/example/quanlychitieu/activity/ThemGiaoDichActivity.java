@@ -1,6 +1,7 @@
-package com.example.quanlychitieu;
+package com.example.quanlychitieu.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.example.quanlychitieu.dao.DanhMucDAO;
-import com.example.quanlychitieu.dao.GiaoDichDAO;
+import com.example.quanlychitieu.R;
 import com.example.quanlychitieu.model.DanhMuc;
 import com.example.quanlychitieu.model.GiaoDich;
+import com.example.quanlychitieu.sqlite.DanhMucDAO;
+import com.example.quanlychitieu.sqlite.GiaoDichDAO;
 import com.example.quanlychitieu.util.FormatUtil;
 
 import java.util.Calendar;
@@ -97,16 +99,21 @@ public class ThemGiaoDichActivity extends AppCompatActivity {
             // Amount color: green for income
             etAmount.setTextColor(ContextCompat.getColor(this, R.color.primary_container));
         }
+        if (danhMucDAO != null && gridCategories != null) {
+            loadCategories();
+        }
     }
 
     private void loadCategories() {
-        danhMucList = danhMucDAO.getAll();
+        danhMucList = danhMucDAO.getByLoai(currentLoai);
+        selectedDanhMucId = -1;
         gridCategories.removeAllViews();
 
         for (int i = 0; i < danhMucList.size(); i++) {
             DanhMuc dm = danhMucList.get(i);
             addCategoryCell(dm, i == 0); // first selected by default
         }
+        addAddCategoryCell();
 
         if (!danhMucList.isEmpty()) {
             selectedDanhMucId = danhMucList.get(0).getId();
@@ -162,11 +169,45 @@ public class ThemGiaoDichActivity extends AppCompatActivity {
         gridCategories.addView(cell);
     }
 
+    private void addAddCategoryCell() {
+        LinearLayout cell = new LinearLayout(this);
+        cell.setOrientation(LinearLayout.VERTICAL);
+        cell.setGravity(android.view.Gravity.CENTER);
+        cell.setPadding(dp(8), dp(12), dp(8), dp(12));
+        cell.setBackgroundResource(R.drawable.bg_category_add);
+
+        GridLayout.LayoutParams cellParams = new GridLayout.LayoutParams();
+        cellParams.width = 0;
+        cellParams.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+        cellParams.setMargins(dp(4), dp(4), dp(4), dp(4));
+        cell.setLayoutParams(cellParams);
+
+        ImageView icon = new ImageView(this);
+        icon.setLayoutParams(new LinearLayout.LayoutParams(dp(36), dp(36)));
+        icon.setPadding(dp(8), dp(8), dp(8), dp(8));
+        icon.setImageResource(android.R.drawable.ic_input_add);
+        icon.setColorFilter(ContextCompat.getColor(this, R.color.primary));
+        cell.addView(icon);
+
+        TextView tvName = new TextView(this);
+        tvName.setText("Thêm loại");
+        tvName.setTextSize(11);
+        tvName.setGravity(android.view.Gravity.CENTER);
+        tvName.setTextColor(ContextCompat.getColor(this, R.color.on_surface_variant));
+        cell.addView(tvName);
+
+        cell.setOnClickListener(v -> startActivity(new Intent(this, DanhMucActivity.class)));
+        gridCategories.addView(cell);
+    }
+
     private void refreshCategorySelection(int selectedId) {
         for (int i = 0; i < gridCategories.getChildCount(); i++) {
             View child = gridCategories.getChildAt(i);
             if (child instanceof LinearLayout) {
                 LinearLayout cell = (LinearLayout) child;
+                if (i >= danhMucList.size()) {
+                    continue;
+                }
                 DanhMuc dm = danhMucList.get(i);
                 boolean isSelected = dm.getId() == selectedId;
 

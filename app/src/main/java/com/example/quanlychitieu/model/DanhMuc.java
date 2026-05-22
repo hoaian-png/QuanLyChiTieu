@@ -4,6 +4,7 @@ public class DanhMuc {
     private int id;
     private String ten;
     private String icon;
+    private String loai;
 
     public DanhMuc() {}
 
@@ -11,10 +12,24 @@ public class DanhMuc {
         this.id = id;
         this.ten = ten;
         this.icon = icon;
+        this.loai = "chi";
+    }
+
+    public DanhMuc(int id, String ten, String icon, String loai) {
+        this.id = id;
+        this.ten = ten;
+        this.icon = icon;
+        this.loai = loai;
     }
 
     public DanhMuc(String ten) {
         this.ten = ten;
+        this.loai = "chi";
+    }
+
+    public DanhMuc(String ten, String loai) {
+        this.ten = ten;
+        this.loai = loai;
     }
 
     public int getId() { return id; }
@@ -25,6 +40,9 @@ public class DanhMuc {
 
     public String getIcon() { return icon; }
     public void setIcon(String icon) { this.icon = icon; }
+
+    public String getLoai() { return loai; }
+    public void setLoai(String loai) { this.loai = loai; }
 
     @Override
     public String toString() {

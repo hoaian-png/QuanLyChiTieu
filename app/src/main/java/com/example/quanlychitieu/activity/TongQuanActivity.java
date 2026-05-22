@@ -1,4 +1,4 @@
-package com.example.quanlychitieu;
+package com.example.quanlychitieu.activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -25,9 +25,10 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import com.example.quanlychitieu.dao.GiaoDichDAO;
-import com.example.quanlychitieu.dao.NganSachDAO;
+import com.example.quanlychitieu.R;
 import com.example.quanlychitieu.model.GiaoDich;
+import com.example.quanlychitieu.sqlite.GiaoDichDAO;
+import com.example.quanlychitieu.sqlite.NganSachDAO;
 import com.example.quanlychitieu.util.FormatUtil;
 
 import java.util.ArrayList;
@@ -243,7 +244,7 @@ public class TongQuanActivity extends AppCompatActivity {
 
         tvTongThu.setText(FormatUtil.formatTien(tongThu));
         tvTongChi.setText(FormatUtil.formatTien(tongChi));
-        tvConLai.setText(FormatUtil.formatTien(Math.abs(conLai)));
+        tvConLai.setText(FormatUtil.formatTienSigned(conLai));
         tvConLai.setTextColor(ContextCompat.getColor(this,
                 conLai >= 0 ? R.color.primary_container : R.color.error));
     }
@@ -270,7 +271,7 @@ public class TongQuanActivity extends AppCompatActivity {
         List<GiaoDich> list;
 
         if (!keyword.isEmpty()) {
-            list = giaoDichDAO.search(keyword, currentThang);
+            list = giaoDichDAO.search(keyword, currentThang, "all".equals(currentFilter) ? null : currentFilter);
         } else if ("thu".equals(currentFilter)) {
             list = giaoDichDAO.getByThangAndLoai(currentThang, "thu");
         } else if ("chi".equals(currentFilter)) {

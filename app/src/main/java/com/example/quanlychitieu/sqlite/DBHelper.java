@@ -1,19 +1,20 @@
-package com.example.quanlychitieu.database;
+package com.example.quanlychitieu.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "quan_ly_chi_tieu.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Table: danh_muc
     public static final String TABLE_DANH_MUC = "danh_muc";
     public static final String COL_DM_ID = "id";
     public static final String COL_DM_TEN = "ten";
     public static final String COL_DM_ICON = "icon";     // resource name string
+    public static final String COL_DM_LOAI = "loai";     // "chi" or "thu"
 
     // Table: giao_dich
     public static final String TABLE_GIAO_DICH = "giao_dich";
@@ -34,7 +35,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + TABLE_DANH_MUC + " (" +
             COL_DM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL_DM_TEN + " TEXT NOT NULL, " +
-            COL_DM_ICON + " TEXT" +
+            COL_DM_ICON + " TEXT, " +
+            COL_DM_LOAI + " TEXT NOT NULL DEFAULT 'chi'" +
             ");";
 
     private static final String CREATE_TABLE_GIAO_DICH =
@@ -46,7 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COL_GD_NGAY + " INTEGER NOT NULL, " +
             COL_GD_GHI_CHU + " TEXT, " +
             "FOREIGN KEY(" + COL_GD_DANH_MUC_ID + ") REFERENCES " +
-            TABLE_DANH_MUC + "(" + COL_DM_ID + ")" +
+            TABLE_DANH_MUC + "(" + COL_DM_ID + ") ON DELETE SET NULL" +
             ");";
 
     private static final String CREATE_TABLE_NGAN_SACH =
@@ -56,16 +58,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COL_NS_HAN_MUC + " REAL NOT NULL" +
             ");";
 
-    private static DatabaseHelper instance;
+    private static DBHelper instance;
 
-    public static synchronized DatabaseHelper getInstance(Context context) {
+    public static synchronized DBHelper getInstance(Context context) {
         if (instance == null) {
-            instance = new DatabaseHelper(context.getApplicationContext());
+            instance = new DBHelper(context.getApplicationContext());
         }
         return instance;
     }
 
-    private DatabaseHelper(Context context) {
+    private DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -92,10 +94,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void insertDefaultData(SQLiteDatabase db) {
-        // Default categories
-        String[] categories = {"Ăn uống", "Nhà cửa", "Học tập", "Di chuyển", "Y tế", "Mua sắm", "Giải trí", "Lương"};
-        for (String cat : categories) {
-            db.execSQL("INSERT INTO " + TABLE_DANH_MUC + " (" + COL_DM_TEN + ") VALUES ('" + cat + "')");
+        String[][] categories = {
+                {"Ăn uống", "chi"},
+                {"Nhà cửa", "chi"},
+                {"Học tập", "chi"},
+                {"Di chuyển", "chi"},
+                {"Y tế", "chi"},
+                {"Mua sắm", "chi"},
+                {"Giải trí", "chi"},
+                {"Lương", "thu"},
+                {"Thưởng", "thu"},
+                {"Đầu tư", "thu"}
+        };
+        for (String[] cat : categories) {
+            db.execSQL("INSERT INTO " + TABLE_DANH_MUC + " (" + COL_DM_TEN + ", " + COL_DM_LOAI + ") VALUES ('" +
+                    cat[0] + "', '" + cat[1] + "')");
         }
 
         // Default budget for current month

@@ -88,7 +88,8 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="center"
-                        android:inputType="numberDecimal"
+                        android:digits="0123456789"
+                        android:inputType="number"
                         android:minWidth="150dp"
                         android:text="15.000.000"
                         android:textColor="@color/on_background"
@@ -182,6 +183,7 @@
 
             <!-- Simplified Category Breakdown -->
             <LinearLayout
+                android:id="@+id/llBudgetCategories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
